@@ -21,41 +21,44 @@ class Pesista {
 
 }
 
-object crossfit {
+class Disciplina {
 
   method entrenaFierros(pesista, horas) {
-    pesista.ganarMasaPorHoras(horas)
+    pesista.ganarMasaPorHoras(self.cantidadDeHoras(horas))
   }
 
   method entrenaCardio(pesista, kilometros) {
     pesista.perderMasaPorKilometros(kilometros)
   }
 
+  method cantidadDeHoras(horas)
 }
 
-object powerlifting {
+object crossfit inherits Disciplina {
+  override method cantidadDeHoras (horas) = horas
+
+
+}
+
+object powerlifting inherits Disciplina {
 
   var property turnosDiarios = 3 // Lo decide el gimnasio, igual para todos
 
-  method entrenaFierros(pesista, horas) {
-    pesista.ganarMasaPorHoras(horas * turnosDiarios)
-  }
+  override method cantidadDeHoras (horas) = horas * turnosDiarios
 
-  method entrenaCardio(pesista, kilometros) {}
+  override method entrenaCardio(pesista, kilometros) {}
 
 }
 
-class Fisicoculturismo {
+class Fisicoculturismo inherits Disciplina {
 
   const dosisTestosterona = 2 // Cada fisicoculturista tiene la suya
 
-  method entrenaFierros(pesista, horas) {
+  override method entrenaFierros(pesista, horas) {
     pesista.entrenaCardio(1)
-    pesista.ganarMasaPorHoras(horas ** dosisTestosterona)
+    super(pesista,horas)
   }
 
-  method entrenaCardio(pesista, kilometros) {
-    pesista.perderMasaPorKilometros(kilometros)
-  }
+  override method cantidadDeHoras(horas) = horas ** dosisTestosterona
 
 }
