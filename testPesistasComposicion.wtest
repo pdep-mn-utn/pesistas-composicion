@@ -1,0 +1,68 @@
+import pesistasComposicion.*
+
+describe "Pesista que hace crossfit" {
+
+  const pesista = new Pesista(imm = 50, disciplina = crossfit)
+
+  test "entrenar fierros 24 horas suma 1 de imm" {
+    pesista.entrenaFierros(24)
+    assert.equals(51, pesista.imm())
+  }
+
+  test "entrenar cardio 10 km resta 1 de imm" {
+    pesista.entrenaCardio(10)
+    assert.equals(49, pesista.imm())
+  }
+
+  test "el cardio nunca deja el imm en negativo" {
+    pesista.imm(0.5)
+    pesista.entrenaCardio(10)
+    assert.equals(0, pesista.imm())
+  }
+
+}
+
+describe "Pesista que hace powerlifting" {
+
+  const pesista = new Pesista(imm = 50, disciplina = powerlifting)
+
+  test "entrenar fierros multiplica las horas por los turnos diarios" {
+    pesista.entrenaFierros(24)
+    assert.equals(53, pesista.imm())
+  }
+
+  test "entrenar cardio no modifica su imm" {
+    pesista.entrenaCardio(10)
+    assert.equals(50, pesista.imm())
+  }
+
+}
+
+describe "Pesista que hace fisicoculturismo" {
+
+  const pesista = new Pesista(imm = 50, disciplina = fisicoculturismo)
+
+  test "entrenar fierros suma las horas al cuadrado" {
+    pesista.entrenaFierros(12)
+    assert.equals(56, pesista.imm())   // 50 + 144 / 24
+  }
+
+  test "entrenar cardio resta como en crossfit" {
+    pesista.entrenaCardio(10)
+    assert.equals(49, pesista.imm())
+  }
+
+}
+
+describe "Cambio de disciplina" {
+
+  const matias = new Pesista(imm = 50, disciplina = crossfit)
+
+  test "al cambiar de disciplina conserva el imm acumulado y entrena con la nueva" {
+    matias.entrenaFierros(24)
+    matias.disciplina(powerlifting)
+    matias.entrenaFierros(24)
+    assert.equals(54, matias.imm())   // 50 + 1 (crossfit) + 3 (powerlifting)
+  }
+
+}
