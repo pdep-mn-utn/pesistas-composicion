@@ -36,20 +36,35 @@ describe "Pesista que hace powerlifting" {
     assert.equals(50, pesista.imm())
   }
 
+  test "si el gimnasio cambia los turnos, cambian para todos los que hacen powerlifting" {
+    const otroPesista = new Pesista(imm = 50, disciplina = powerlifting)
+    powerlifting.turnosDiarios(2)
+    pesista.entrenaFierros(24)
+    otroPesista.entrenaFierros(24)
+    assert.equals(52, pesista.imm())
+    assert.equals(52, otroPesista.imm())
+  }
+
 }
 
 describe "Pesista que hace fisicoculturismo" {
 
-  const pesista = new Pesista(imm = 50, disciplina = fisicoculturismo)
+  const pesista = new Pesista(imm = 50, disciplina = new Fisicoculturismo())
 
-  test "entrenar fierros suma las horas al cuadrado" {
+  test "entrenar fierros entra en calor con 1 km de cardio y suma las horas al cuadrado" {
     pesista.entrenaFierros(12)
-    assert.equals(56, pesista.imm())   // 50 + 144 / 24
+    assert.equals(55.9, pesista.imm())   // 50 - 0.1 + 144 / 24
   }
 
   test "entrenar cardio resta como en crossfit" {
     pesista.entrenaCardio(10)
     assert.equals(49, pesista.imm())
+  }
+
+  test "cada fisicoculturista puede tener su propia dosis" {
+    const conDosisAlta = new Pesista(imm = 50, disciplina = new Fisicoculturismo(dosisTestosterona = 3))
+    conDosisAlta.entrenaFierros(6)
+    assert.equals(58.9, conDosisAlta.imm())   // 50 - 0.1 + 216 / 24
   }
 
 }

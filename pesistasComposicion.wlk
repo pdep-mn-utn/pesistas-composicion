@@ -4,28 +4,58 @@ class Pesista {
   var property disciplina
 
   method entrenaFierros(horas) {
-    imm += disciplina.masaPorFierros(horas)
+    disciplina.entrenaFierros(self, horas)
   }
 
   method entrenaCardio(kilometros) {
-    imm = (imm - disciplina.masaPorCardio(kilometros)).max(0)
+    disciplina.entrenaCardio(self, kilometros)
+  }
+
+  method ganarMasaPorHoras(horas) {
+    imm += horas / 24
+  }
+
+  method perderMasaPorKilometros(kilometros) {
+    imm = (imm - kilometros / 10).max(0)
   }
 
 }
 
 object crossfit {
-  method masaPorFierros(horas) = horas / 24
-  method masaPorCardio(kilometros) = kilometros / 10
+
+  method entrenaFierros(pesista, horas) {
+    pesista.ganarMasaPorHoras(horas)
+  }
+
+  method entrenaCardio(pesista, kilometros) {
+    pesista.perderMasaPorKilometros(kilometros)
+  }
+
 }
 
 object powerlifting {
-  const turnosDiarios = 3
-  method masaPorFierros(horas) = horas * turnosDiarios / 24
-  method masaPorCardio(kilometros) = 0
+
+  var property turnosDiarios = 3 // Lo decide el gimnasio, igual para todos
+
+  method entrenaFierros(pesista, horas) {
+    pesista.ganarMasaPorHoras(horas * turnosDiarios)
+  }
+
+  method entrenaCardio(pesista, kilometros) {}
+
 }
 
-object fisicoculturismo {
-  const dosisTestosterona = 2
-  method masaPorFierros(horas) = horas ** dosisTestosterona / 24
-  method masaPorCardio(kilometros) = kilometros / 10
+class Fisicoculturismo {
+
+  const dosisTestosterona = 2 // Cada fisicoculturista tiene la suya
+
+  method entrenaFierros(pesista, horas) {
+    pesista.entrenaCardio(1)
+    pesista.ganarMasaPorHoras(horas ** dosisTestosterona)
+  }
+
+  method entrenaCardio(pesista, kilometros) {
+    pesista.perderMasaPorKilometros(kilometros)
+  }
+
 }
